@@ -2,9 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from sets import Set
+import codecs
 
 links = open('links.txt', 'r');
-f = open('billboard.csv', 'w');
+#f = open('billboard.csv', 'w');
+f = codecs.open('billboard.csv', 'w', encoding='utf8');
 allSongs = Set();
 
 for link in links:
