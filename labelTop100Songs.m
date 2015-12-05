@@ -32,11 +32,13 @@ all_files = findAllFiles(msd_data_path);
 cnt = length(all_files);
 disp(['Number of h5 files found: ',num2str(cnt)]);
 
+fileID = fopen('songYears.csv','w');
 % Get info from the first file using our wrapper
-% for i = 1:cnt
-%     h5 = HDF5_Song_File_Reader(all_files{i});
+for i = 1:cnt
+    h5 = HDF5_Song_File_Reader(all_files{i});
+    fprintf(fileID, '%d"\n', h5.get_year());
 %     disp(['artist name is: ',h5.get_artist_name()]);
 %     disp([' song title is: ',h5.get_title()]);
-% end
+end
 h5 = HDF5_Song_File_Reader(all_files{1});
 
