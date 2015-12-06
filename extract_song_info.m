@@ -4,7 +4,7 @@ features = zeros(1, 107);
 % Metadata
 features(1) = h5.get_artist_familiarity();
 features(2) = h5.get_duration();
-features(3) = h5.get_energy(); % All 0's :(
+features(3) = h5.get_end_of_fade_in();
 features(4) = h5.get_key();
 features(5) = h5.get_start_of_fade_out();
 features(6) = h5.get_loudness();
@@ -13,7 +13,7 @@ features(8) = h5.get_tempo();
 features(9) = h5.get_time_signature();
 features(10) = h5.get_artist_hotttnesss();
 features(11) = h5.get_song_hotttnesss();
-%features(3) = h5.get_end_of_fade_in();
+%features(3) = h5.get_energy(); % All 0's :(
 %features(11) = h5.get_danceability(); % All 0's :(
 
 % h5.get_bars_start()
