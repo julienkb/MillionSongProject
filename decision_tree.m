@@ -15,17 +15,16 @@ load('song_info.mat');
 x(isnan(x)) = 0;
 genres = csvread('cs229project/lists/genres.csv');
 x = [genres x];
-x = x(include_in_data, [17:71 73:113]);
+x = x(include_in_data, [17:113]);
 
 % Train algorithm
-qda = fitcdiscr(x, y,'DiscrimType','quadratic');
+tree = fitctree(x, y);
 cp = cvpartition(y,'KFold',10);
-cvqda = crossval(qda,'CVPartition',cp);
-qdaCVErr = kfoldLoss(cvqda)
+cvtree = crossval(tree,'CVPartition',cp);
+treeCVErr = kfoldLoss(cvtree)
 
-c1 = qda.predict(x);
+c1 = tree.predict(x);
 confusion = confusionmat(y, c1)
-
 
 % Output predictions/stats
 num_examples = size(x, 1);
