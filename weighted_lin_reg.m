@@ -17,7 +17,7 @@ load('song_info.mat');
 x(isnan(x)) = 0;
 genres = csvread('cs229project/lists/genres.csv');
 x = [genres x];
-x = x(include_in_data, 12:36);
+x = x(include_in_data, 1:113);
 x = [ones(size(x, 1), 1) x];
 
 

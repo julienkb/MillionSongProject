@@ -12,10 +12,19 @@ y = +labels; % Convert from logical to int
 
 load('song_info.mat');
 x(isnan(x)) = 0;
-%x = x(include_in_data, [1,3,4,6,7,9,10,11]);
-x = x(include_in_data, [12:36]);
-x = [ones(size(x, 1), 1) x];
+genres = csvread('cs229project/lists/genres.csv');
+x = [genres x];
+x = x(include_in_data, [1:113]);
 
-nb = fitNaiveBayes(x, y);
-c1 = nb.predict(x);
-confusion = confusionmax(species, c1);
+nb = fitcnb(x(1:2000, :), y(1:2000),'DistributionNames','kernel', 'Kernel','box');
+c1 = nb.predict(x(2001:7556, :));
+confusion = confusionmat(y(2001: 7556), c1)
+
+num_examples = size(x, 1);
+pred_pos = confusion(1, 2) + confusion(2, 2);
+pred_neg = confusion(1, 1) + confusion(2, 1);
+
+recall_pos = confusion(2,2) / sum(y)
+recall_neg = confusion(1,1) / sum(+neg_labels)
+precision_pos = confusion(2, 2)/pred_pos
+precision_neg = confusion(1, 1)/pred_neg

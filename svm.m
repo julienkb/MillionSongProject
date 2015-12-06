@@ -1,3 +1,4 @@
+% Read in the data
 matches = csvread('./cs229project/lists/match_indices.csv') + 1;
 not_matches = csvread('./cs229project/lists/not_top_artist_indices.csv') + 1;
 %indices = csvread('./match_indices.csv') + 1;
@@ -14,17 +15,21 @@ load('song_info.mat');
 x(isnan(x)) = 0;
 genres = csvread('cs229project/lists/genres.csv');
 x = [genres x];
-x = x(include_in_data, [18:113]);
-x = [ones(size(x, 1), 1) x];
+x = x(include_in_data, [17:71 73:113]);
 
-theta = inv(x'*x) * (x' * y);
+% Train algorithm
+SVMModel = fitcsvm(x,y,'KernelFunction','linear','Standardize', true);
+pred = predict(SVMModel, x);
+% c1 = qda.predict(x);
+% confusion = confusionmat(y, c1)
 
-pred = (theta' * x' > 0)';
-correct = (+pred == y);
 
-precision1 = sum (+correct(labels))  / sum (+pred);
-precision2 = sum (+correct(~labels)) / (size(x,1) - sum(+pred));
-recall1 = sum (+pred(labels)) / sum (y);
-recall2 = sum (+~pred(~labels)) / (size(x,1) - sum(y));
+% Output predictions/stats
+num_examples = size(x, 1);
+pred_pos = confusion(1, 2) + confusion(2, 2);
+pred_neg = confusion(1, 1) + confusion(2, 1);
 
-percent_correct = sum(+correct)/(size(x,1));
+recall_pos = confusion(2,2) / sum(y)
+recall_neg = confusion(1,1) / sum(+neg_labels)
+precision_pos = confusion(2, 2)/pred_pos
+precision_neg = confusion(1, 1)/pred_neg
